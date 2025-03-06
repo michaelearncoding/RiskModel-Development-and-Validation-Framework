@@ -1,0 +1,102 @@
+# Project Configuration
+
+# Data settings
+data:
+  train_path: "data/credit_data_train.csv"
+  test_path: "data/credit_data_test.csv"
+  validation_path: "data/credit_data_validation.csv"
+  synthetic_data_size: 10000
+  random_seed: 42
+  target_variable: "default_flag"
+  id_column: "customer_id"
+  
+# Feature engineering
+features:
+  categorical_columns:
+    - "employment_status"
+    - "housing_status"
+    - "loan_purpose"
+    - "education"
+  numerical_columns:
+    - "age"
+    - "income"
+    - "debt_to_income"
+    - "loan_amount"
+    - "loan_term"
+    - "credit_score"
+    - "num_credit_lines"
+    - "utilization_rate"
+    - "delinquency_history"
+  date_columns:
+    - "application_date"
+  transformation:
+    imputation_strategy: "knn"
+    scaling_method: "standard"
+    encoding_method: "target"
+
+# Model development settings
+models:
+  logistic_regression:
+    penalty: "l2"
+    C: 1.0
+    solver: "liblinear"
+    max_iter: 100
+  random_forest:
+    n_estimators: 100
+    max_depth: 10
+    min_samples_split: 10
+    min_samples_leaf: 4
+  gradient_boosting:
+    n_estimators: 100
+    learning_rate: 0.1
+    max_depth: 5
+  neural_network:
+    hidden_layers: [64, 32]
+    activation: "relu"
+    dropout_rate: 0.3
+    batch_size: 64
+    epochs: 50
+
+# Validation settings
+validation:
+  cv_folds: 5
+  performance_metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1"
+    - "roc_auc"
+    - "ks_statistic"
+    - "gini_coefficient"
+  stability_test_periods: 
+    - 3
+    - 6
+    - 12
+  sensitivity_variables:
+    - "income"
+    - "credit_score"
+    - "debt_to_income"
+  psi_threshold: 0.1
+  monitoring_frequency: "monthly"
+
+# Stress testing
+stress_testing:
+  scenarios:
+    baseline:
+      unemployment_rate: 4.0
+      interest_rate: 3.0
+      gdp_growth: 2.5
+    moderate_recession:
+      unemployment_rate: 7.0
+      interest_rate: 4.5
+      gdp_growth: -1.0
+    severe_recession:
+      unemployment_rate: 10.0
+      interest_rate: 6.0
+      gdp_growth: -3.5
+
+# Documentation
+documentation:
+  model_card_template: "reports/templates/model_card.md"
+  validation_report_template: "reports/templates/validation_report.md"
+  governance_template: "reports/templates/governance_approval.md" 
